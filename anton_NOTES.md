@@ -51,6 +51,14 @@ When are we successful?
 2. Limiting PLM duplication to x1, the arbiter integration allows for performance improvement due to parallelization of the compute phase that cannot be achieved without the use of arbiter. All memories are assumed to be dual-port. Pipelining is not allowed (more on this later).
 3. Integration is flexible, requiring no code changes as the parallelization of compute phase is changed.
 
+### Choosing a real-world accelerator
+I would like to be careful while choosing a real world accelerator so integration has even a theoretical chance to be worthwhile.
+This really burns down to few constraints on the accelerator:
+1. Compute phase is longer than 4 cycles (this is just from my research during the Spring semester)
+2. Next access address is known ahead of time. This allows us to negate the arbiter latencies by not waiting for request completion.
+3. Datapath should be complex enough to preven effective and automatic pipelining. If pipelining can be done easily, the PLM can be kept at 100% utilization as a new value is requested at each clock cycle. This of course significantly weakens the argument for a PLM arbiter. Arbiter only wins if the PLM is kept mostly idle during normal access patterns.
+
+
 ## Links
 1. [Round-Robin Arbiter](https://rtlery.com/articles/how-design-round-robin-arbiter)
 2. [MS Paper of Aung Toe](https://scholarworks.rit.edu/cgi/viewcontent.cgi?article=10982&context=theses)
