@@ -89,6 +89,8 @@ class Scratchpad : public sc_module {
   static const int ADDR_WIDTH = nvhls::nbits<CAPACITY_IN_BYTES - 1>::val;
   sc_in_clk clk;
   sc_in<bool> rst;
+
+  // ANTON: These seem to be the channels where the requests come in
   Connections::In<cli_req_t<T, ADDR_WIDTH, N> > cli_req;
   Connections::Out<cli_rsp_t<T, N> > cli_rsp;
 
@@ -123,7 +125,7 @@ class Scratchpad : public sc_module {
   //   -Declare all SC_METHODs and SC_THREADs
   SC_HAS_PROCESS(Scratchpad);
   Scratchpad(sc_module_name name_) : sc_module(name_) {
-    SC_THREAD(run);
+    SC_THREAD(run); // ANTON: Why is this a Thread? Is this only for simulation purposes?
     sensitive << clk.pos();
     NVHLS_NEG_RESET_SIGNAL_IS(rst);
     //DCOUT("Capacity (bytes): " << CAPACITY_IN_BYTES << ", banks: " << N
@@ -148,7 +150,7 @@ class Scratchpad : public sc_module {
       // (Implemented as a blocking read since there's no other work to do if no
       // valid request in the channel)
       curr_cli_req = cli_req.Pop();
-      is_load = (curr_cli_req.opcode == LOAD);
+      is_load = (curr_cli_req.opcode == LOAD); // ANTON: Figure out if this is a read or write
 
 // Pre-process the bank requests and compute lane selects from addresses
 #pragma hls_unroll yes

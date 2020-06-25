@@ -29,7 +29,7 @@ SC_MODULE (ScratchpadTop) {
   static const int ADDR_WIDTH = SCRATCHPAD_ADDR_WIDTH;
   Connections::In< cli_req_t<data32_t, ADDR_WIDTH,N> > cli_req;
   Connections::Out< cli_rsp_t<data32_t, N> > cli_rsp;
-  Scratchpad<data32_t, SCRATCHPAD_BANKS,SCRATCHPAD_CAPACITY> myscratchpad;
+  Scratchpad<data32_t, SCRATCHPAD_BANKS,SCRATCHPAD_CAPACITY> myscratchpad; // ANTON: Scratchpad instance
 
   SC_HAS_PROCESS(ScratchpadTop);
   ScratchpadTop(sc_module_name name) : sc_module(name),
